@@ -1,6 +1,8 @@
 import 'package:flipnpair/homePage.dart';
+import 'package:flipnpair/provider/gameStateProvider.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ThreeCrossTwo extends StatefulWidget {
   const ThreeCrossTwo({super.key});
@@ -12,6 +14,8 @@ class ThreeCrossTwo extends StatefulWidget {
 class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   @override
   Widget build(BuildContext context) {
+    final gameState = Provider.of<GameState>(context);
+    gameState.generateImages(6);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -101,12 +105,8 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                   ),
                   itemCount: 6,
                   itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    );
+                    return Image.asset(gameState.images[index],
+                        fit: BoxFit.cover);
                   },
                 ),
               ),
