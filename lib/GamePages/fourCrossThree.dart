@@ -18,6 +18,7 @@ class _FourCrossThreeState extends State<FourCrossThree> {
   void initState() {
     super.initState();
     _game.initGame();
+    _game.generateImages(12);
   }
 
   @override

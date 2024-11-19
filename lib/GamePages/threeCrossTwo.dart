@@ -18,6 +18,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   void initState() {
     super.initState();
     _game.initGame();
+    _game.generateImages(6);
   }
 
   @override
