@@ -13,7 +13,7 @@ class ThreeCrossTwo extends StatefulWidget {
 class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   int tries = 0;
   int scores = 0;
-  Game _game = Game();
+  Game _game = Game(cardCount: 6);
   @override
   void initState() {
     super.initState();

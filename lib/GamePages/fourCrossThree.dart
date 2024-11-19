@@ -1,5 +1,6 @@
 import 'package:flipnpair/homePage.dart';
 import 'package:flipnpair/util/appColors.dart';
+import 'package:flipnpair/util/gameLogic.dart';
 import 'package:flutter/material.dart';
 
 class FourCrossThree extends StatefulWidget {
@@ -10,6 +11,15 @@ class FourCrossThree extends StatefulWidget {
 }
 
 class _FourCrossThreeState extends State<FourCrossThree> {
+  int tries = 0;
+  int scores = 0;
+  Game _game = Game(cardCount: 12);
+  @override
+  void initState() {
+    super.initState();
+    _game.initGame();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -49,10 +59,10 @@ class _FourCrossThreeState extends State<FourCrossThree> {
                       borderRadius: BorderRadius.circular(15),
                       color: AppColors.primaryAccent,
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        'Points',
-                        style: TextStyle(
+                        '$scores',
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -64,10 +74,10 @@ class _FourCrossThreeState extends State<FourCrossThree> {
                       borderRadius: BorderRadius.circular(15),
                       color: AppColors.primaryAccent,
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        'Swaps',
-                        style: TextStyle(
+                        '$tries',
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -99,12 +109,43 @@ class _FourCrossThreeState extends State<FourCrossThree> {
                     mainAxisSpacing: 40,
                     crossAxisSpacing: 20,
                   ),
-                  itemCount: 12,
+                  itemCount: _game.gameImg!.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          print(_game.cardsList[index]);
+                          tries++;
+                          _game.gameImg![index] = _game.cardsList[index];
+                          _game.matchCheck.add({index: _game.cardsList[index]});
+                        });
+                        if (_game.matchCheck.length == 2) {
+                          if (_game.matchCheck[0].values.first ==
+                              _game.matchCheck[1].values.first) {
+                            print('True');
+                            scores += 100;
+                            _game.matchCheck.clear();
+                          } else {
+                            print('false');
+                            Future.delayed(Duration(milliseconds: 500), () {
+                              setState(() {
+                                _game.gameImg![_game.matchCheck[0].keys.first] =
+                                    _game.hiddenCardPath;
+                                _game.gameImg![_game.matchCheck[1].keys.first] =
+                                    _game.hiddenCardPath;
+                                _game.matchCheck.clear();
+                              });
+                            });
+                          }
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                                image: AssetImage(_game.gameImg![index]),
+                                fit: BoxFit.cover)),
                       ),
                     );
                   },

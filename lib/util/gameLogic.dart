@@ -1,6 +1,6 @@
 class Game {
   final String hiddenCardPath = 'assets/images/hidden.png';
-  final int cardCount = 6;
+  final int cardCount;
   List<String>? gameImg;
   final List<String> cardsList = [
     'assets/images/1.png',
@@ -11,6 +11,8 @@ class Game {
     'assets/images/2.png',
   ];
   List<Map<int, String>> matchCheck = [];
+
+  Game({required this.cardCount});
 
   void initGame() {
     gameImg = List.generate(
