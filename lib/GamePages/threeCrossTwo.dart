@@ -27,7 +27,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.lightCyan,
       body: SizedBox(
         width: double.infinity,
         child: Column(
