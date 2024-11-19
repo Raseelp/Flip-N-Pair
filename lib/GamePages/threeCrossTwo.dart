@@ -13,6 +13,7 @@ class ThreeCrossTwo extends StatefulWidget {
 class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   int tries = 0;
   int scores = 0;
+  int match = 0;
   Game _game = Game(cardCount: 6);
   @override
   void initState() {
@@ -126,6 +127,10 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                               _game.matchCheck[1].values.first) {
                             print('True');
                             scores += 100;
+                            match++;
+                            if (match == 3) {
+                              showVictoryDiolog(tries, scores);
+                            }
                             _game.matchCheck.clear();
                           } else {
                             print('false');
@@ -160,7 +165,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
     );
   }
 
-  void showVictoryDiolog() {
+  void showVictoryDiolog(int moves, int scores) {
     showDialog(
       context: context,
       builder: (context) {
@@ -187,15 +192,15 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                         borderRadius: BorderRadius.circular(20),
                         color: AppColors.lightCyan,
                         border: Border.all()),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Moves: 300',
-                          style: TextStyle(
+                          'Moves: $moves',
+                          style: const TextStyle(
                               fontSize: 25, color: AppColors.primaryText),
                         ),
-                        Text(
+                        const Text(
                           'Time: 200',
                           style: TextStyle(
                               fontSize: 25, color: AppColors.primaryText),
@@ -243,10 +248,10 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                                   borderRadius: const BorderRadius.vertical(
                                       bottom: Radius.circular(20))),
                               width: double.infinity,
-                              child: const Center(
+                              child: Center(
                                   child: Text(
-                                '600',
-                                style: TextStyle(
+                                '$scores',
+                                style: const TextStyle(
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
@@ -267,17 +272,26 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: MediaQuery.of(context).size.width * 0.15,
-                          decoration: BoxDecoration(
-                            border: Border.all(),
-                            color: AppColors.lightCyan,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Icon(
-                            Icons.restart_alt_rounded,
-                            size: 40,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ThreeCrossTwo(),
+                                ));
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              color: AppColors.lightCyan,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Icon(
+                              Icons.restart_alt_rounded,
+                              size: 40,
+                            ),
                           ),
                         ),
                         GestureDetector(
@@ -343,30 +357,44 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.width * 0.15,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          color: AppColors.lightCyan,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
-                          Icons.restart_alt_rounded,
-                          size: 40,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ThreeCrossTwo(),
+                              ));
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          height: MediaQuery.of(context).size.width * 0.15,
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            color: AppColors.lightCyan,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Icon(
+                            Icons.restart_alt_rounded,
+                            size: 40,
+                          ),
                         ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.width * 0.15,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          color: AppColors.lightCyan,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
-                          Icons.pause_outlined,
-                          size: 40,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          height: MediaQuery.of(context).size.width * 0.15,
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            color: AppColors.lightCyan,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Icon(
+                            Icons.pause_outlined,
+                            size: 40,
+                          ),
                         ),
                       ),
                       GestureDetector(
