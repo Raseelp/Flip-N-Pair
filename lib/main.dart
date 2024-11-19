@@ -1,11 +1,8 @@
 import 'package:flipnpair/homePage.dart';
-import 'package:flipnpair/provider/gameStateProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => GameState(), child: FlipNPair()));
+  runApp(FlipNPair());
 }
 
 class FlipNPair extends StatelessWidget {
