@@ -13,6 +13,7 @@ class FiveCrossFour extends StatefulWidget {
 class _FiveCrossFourState extends State<FiveCrossFour> {
   int tries = 0;
   int scores = 0;
+  int matches = 0;
   Game _game = Game(cardCount: 20);
   @override
   void initState() {
@@ -125,6 +126,10 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                               _game.matchCheck[1].values.first) {
                             print('True');
                             scores += 100;
+                            matches++;
+                            if (matches == 10) {
+                              showVictoryDiolog(tries, scores);
+                            }
                             _game.matchCheck.clear();
                           } else {
                             print('false');
