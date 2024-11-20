@@ -1,10 +1,11 @@
-import 'package:flipnpair/GamePages/MultiPlayer/multiDifficulty.dart';
-import 'package:flipnpair/difficultySelect.dart';
+import 'package:flipnpair/GamePages/MultiPlayer/MultiThreeCrossTwo.dart';
+import 'package:flipnpair/GamePages/MultiPlayer/multiFiveCrossFour.dart';
+import 'package:flipnpair/GamePages/MultiPlayer/multiFourCrossThree.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
-  const Homepage({super.key});
+class MultiDifficulty extends StatelessWidget {
+  const MultiDifficulty({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +20,14 @@ class Homepage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              'Flip N Pair',
+              'Select Difficulty',
               style: TextStyle(
                   color: AppColors.primaryText,
                   fontSize: 40,
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(
-              height: screenHeight * .4,
+              height: screenHeight * .2,
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -34,25 +35,25 @@ class Homepage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20))),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DifficultySelection(),
+                      builder: (context) => MultiThreeCrossTwo(),
                     ),
                   );
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.0899,
+                      horizontal: screenWidth * 0.13,
                       vertical: screenHeight * 0.02),
-                  child: const Text('Quick Game',
+                  child: const Text('3 X 2',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 20)),
                 )),
             SizedBox(
-              height: screenHeight * .03,
+              height: screenHeight * .02,
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -60,37 +61,44 @@ class Homepage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20))),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MultiDifficulty(),
+                      builder: (context) => Multifourcrossthree(),
                     ),
                   );
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.1,
+                      horizontal: screenWidth * 0.13,
                       vertical: screenHeight * 0.02),
-                  child: const Text('MultiPlayer',
+                  child: const Text('4 X 3',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 20)),
                 )),
             SizedBox(
-              height: screenHeight * .03,
+              height: screenHeight * .02,
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryAccent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MultiFivecrossFour(),
+                    ),
+                  );
+                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.13,
                       vertical: screenHeight * 0.018),
-                  child: const Text('Settings',
+                  child: const Text('5 X 4',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
