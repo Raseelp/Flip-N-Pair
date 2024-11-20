@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flipnpair/homePage.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flipnpair/util/gameLogic.dart';
@@ -14,12 +16,40 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   int tries = 0;
   int scores = 0;
   int match = 0;
+  // To track elapsed time
+  Timer? _timer; // Timer instance
+  bool isTimerRunning = false;
+  int _secondsElapsed = 0;
   Game _game = Game(cardCount: 6);
   @override
   void initState() {
     super.initState();
     _game.initGame();
     _game.generateImages(6);
+
+    if (!isTimerRunning) {
+      startTimer();
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer to prevent memory leaks
+    super.dispose();
+  }
+
+  void startTimer() {
+    isTimerRunning = true;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _secondsElapsed++;
+      });
+    });
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
+    isTimerRunning = false;
   }
 
   @override
@@ -80,7 +110,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                     child: Center(
                       child: Text(
                         '$tries',
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -92,10 +122,10 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                       borderRadius: BorderRadius.circular(15),
                       color: AppColors.primaryAccent,
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        'Time',
-                        style: TextStyle(
+                        '${(_secondsElapsed ~/ 60).toString().padLeft(2, '0')}:${(_secondsElapsed % 60).toString().padLeft(2, '0')}',
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -117,7 +147,6 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          print(_game.cardsList[index]);
                           tries++;
                           _game.gameImg![index] = _game.cardsList[index];
                           _game.matchCheck.add({index: _game.cardsList[index]});
@@ -125,7 +154,6 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                         if (_game.matchCheck.length == 2) {
                           if (_game.matchCheck[0].values.first ==
                               _game.matchCheck[1].values.first) {
-                            print('True');
                             scores += 100;
                             match++;
                             if (match == 3) {
@@ -133,8 +161,8 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                             }
                             _game.matchCheck.clear();
                           } else {
-                            print('false');
-                            Future.delayed(Duration(milliseconds: 500), () {
+                            Future.delayed(const Duration(milliseconds: 500),
+                                () {
                               setState(() {
                                 _game.gameImg![_game.matchCheck[0].keys.first] =
                                     _game.hiddenCardPath;
@@ -166,6 +194,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   }
 
   void showVictoryDiolog(int moves, int scores) {
+    stopTimer();
     showDialog(
       context: context,
       builder: (context) {
@@ -200,9 +229,9 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                           style: const TextStyle(
                               fontSize: 25, color: AppColors.primaryText),
                         ),
-                        const Text(
-                          'Time: 200',
-                          style: TextStyle(
+                        Text(
+                          'Time:  ${(_secondsElapsed ~/ 60).toString().padLeft(2, '0')}:${(_secondsElapsed % 60).toString().padLeft(2, '0')}',
+                          style: const TextStyle(
                               fontSize: 25, color: AppColors.primaryText),
                         ),
                       ],
@@ -225,7 +254,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                               decoration: BoxDecoration(
                                 border: Border.all(),
                                 color: AppColors.lightCyan,
-                                borderRadius: BorderRadius.vertical(
+                                borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(20),
                                 ),
                               ),

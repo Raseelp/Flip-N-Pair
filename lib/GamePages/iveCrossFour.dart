@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flipnpair/homePage.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flipnpair/util/gameLogic.dart';
@@ -14,12 +16,39 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
   int tries = 0;
   int scores = 0;
   int matches = 0;
+  Timer? _timer; // Timer instance
+  bool isTimerRunning = false;
+  int _secondsElapsed = 0;
   Game _game = Game(cardCount: 20);
   @override
   void initState() {
     super.initState();
     _game.initGame();
     _game.generateImages(20);
+
+    if (!isTimerRunning) {
+      startTimer();
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer to prevent memory leaks
+    super.dispose();
+  }
+
+  void startTimer() {
+    isTimerRunning = true;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _secondsElapsed++;
+      });
+    });
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
+    isTimerRunning = false;
   }
 
   @override
@@ -91,9 +120,9 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                       borderRadius: BorderRadius.circular(15),
                       color: AppColors.primaryAccent,
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        'Time',
+                        '${(_secondsElapsed ~/ 60).toString().padLeft(2, '0')}:${(_secondsElapsed % 60).toString().padLeft(2, '0')}',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -165,6 +194,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
   }
 
   void showVictoryDiolog(int moves, int scores) {
+    stopTimer();
     showDialog(
       context: context,
       builder: (context) {
@@ -199,8 +229,8 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                           style: const TextStyle(
                               fontSize: 25, color: AppColors.primaryText),
                         ),
-                        const Text(
-                          'Time: 200',
+                        Text(
+                          'Time: ${(_secondsElapsed ~/ 60).toString().padLeft(2, '0')}:${(_secondsElapsed % 60).toString().padLeft(2, '0')}',
                           style: TextStyle(
                               fontSize: 25, color: AppColors.primaryText),
                         ),
