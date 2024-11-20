@@ -17,7 +17,8 @@ class _FourCrossThreeState extends State<FourCrossThree> {
   int scores = 0;
   int matches = 0;
   Timer? _timer; // Timer instance
-  bool isTimerRunning = false;
+  bool _isTimerActive = false;
+
   int _secondsElapsed = 0;
   Game _game = Game(cardCount: 12);
   @override
@@ -26,9 +27,7 @@ class _FourCrossThreeState extends State<FourCrossThree> {
     _game.initGame();
     _game.generateImages(12);
 
-    if (!isTimerRunning) {
-      startTimer();
-    }
+    startOrContinueTimer();
   }
 
   @override
@@ -37,18 +36,21 @@ class _FourCrossThreeState extends State<FourCrossThree> {
     super.dispose();
   }
 
-  void startTimer() {
-    isTimerRunning = true;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _secondsElapsed++;
+  void startOrContinueTimer() {
+    if (!_isTimerActive) {
+      // Only start the timer if it's not already running
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          _secondsElapsed++;
+        });
       });
-    });
+      _isTimerActive = true;
+    }
   }
 
   void stopTimer() {
     _timer?.cancel();
-    isTimerRunning = false;
+    _isTimerActive = false;
   }
 
   @override
@@ -123,7 +125,7 @@ class _FourCrossThreeState extends State<FourCrossThree> {
                     child: Center(
                       child: Text(
                         '${(_secondsElapsed ~/ 60).toString().padLeft(2, '0')}:${(_secondsElapsed % 60).toString().padLeft(2, '0')}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -197,6 +199,7 @@ class _FourCrossThreeState extends State<FourCrossThree> {
   void showVictoryDiolog(int moves, int scores) {
     stopTimer();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return WillPopScope(
@@ -232,7 +235,7 @@ class _FourCrossThreeState extends State<FourCrossThree> {
                         ),
                         Text(
                           'Time: ${(_secondsElapsed ~/ 60).toString().padLeft(2, '0')}:${(_secondsElapsed % 60).toString().padLeft(2, '0')}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 25, color: AppColors.primaryText),
                         ),
                       ],
@@ -255,7 +258,7 @@ class _FourCrossThreeState extends State<FourCrossThree> {
                               decoration: BoxDecoration(
                                 border: Border.all(),
                                 color: AppColors.lightCyan,
-                                borderRadius: BorderRadius.vertical(
+                                borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(20),
                                 ),
                               ),
@@ -360,7 +363,9 @@ class _FourCrossThreeState extends State<FourCrossThree> {
   }
 
   void showPauseDialog() {
+    stopTimer();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -411,6 +416,7 @@ class _FourCrossThreeState extends State<FourCrossThree> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          startOrContinueTimer();
                           Navigator.pop(context);
                         },
                         child: Container(

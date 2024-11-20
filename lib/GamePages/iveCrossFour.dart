@@ -17,7 +17,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
   int scores = 0;
   int matches = 0;
   Timer? _timer; // Timer instance
-  bool isTimerRunning = false;
+  bool _isTimerActive = false;
   int _secondsElapsed = 0;
   Game _game = Game(cardCount: 20);
   @override
@@ -25,10 +25,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
     super.initState();
     _game.initGame();
     _game.generateImages(20);
-
-    if (!isTimerRunning) {
-      startTimer();
-    }
+    startOrContinueTimer();
   }
 
   @override
@@ -37,18 +34,21 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
     super.dispose();
   }
 
-  void startTimer() {
-    isTimerRunning = true;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _secondsElapsed++;
+  void startOrContinueTimer() {
+    if (!_isTimerActive) {
+      // Only start the timer if it's not already running
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          _secondsElapsed++;
+        });
       });
-    });
+      _isTimerActive = true;
+    }
   }
 
   void stopTimer() {
     _timer?.cancel();
-    isTimerRunning = false;
+    _isTimerActive = false;
   }
 
   @override
@@ -93,7 +93,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                     child: Center(
                       child: Text(
                         '$scores',
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -108,7 +108,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                     child: Center(
                       child: Text(
                         '$tries',
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -123,7 +123,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                     child: Center(
                       child: Text(
                         '${(_secondsElapsed ~/ 60).toString().padLeft(2, '0')}:${(_secondsElapsed % 60).toString().padLeft(2, '0')}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -196,6 +196,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
   void showVictoryDiolog(int moves, int scores) {
     stopTimer();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return WillPopScope(
@@ -359,7 +360,9 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
   }
 
   void showPauseDialog() {
+    stopTimer();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -410,6 +413,7 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          startOrContinueTimer();
                           Navigator.pop(context);
                         },
                         child: Container(

@@ -18,7 +18,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   int match = 0;
   // To track elapsed time
   Timer? _timer; // Timer instance
-  bool isTimerRunning = false;
+  bool _isTimerActive = false;
   int _secondsElapsed = 0;
   Game _game = Game(cardCount: 6);
   @override
@@ -27,9 +27,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
     _game.initGame();
     _game.generateImages(6);
 
-    if (!isTimerRunning) {
-      startTimer();
-    }
+    startOrContinueTimer();
   }
 
   @override
@@ -38,18 +36,21 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
     super.dispose();
   }
 
-  void startTimer() {
-    isTimerRunning = true;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _secondsElapsed++;
+  void startOrContinueTimer() {
+    if (!_isTimerActive) {
+      // Only start the timer if it's not already running
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          _secondsElapsed++;
+        });
       });
-    });
+      _isTimerActive = true;
+    }
   }
 
   void stopTimer() {
     _timer?.cancel();
-    isTimerRunning = false;
+    _isTimerActive = false;
   }
 
   @override
@@ -196,6 +197,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   void showVictoryDiolog(int moves, int scores) {
     stopTimer();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return WillPopScope(
@@ -359,7 +361,9 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   }
 
   void showPauseDialog() {
+    stopTimer();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -410,6 +414,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          startOrContinueTimer();
                           Navigator.pop(context);
                         },
                         child: Container(
