@@ -20,7 +20,9 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   Timer? _timer; // Timer instance
   bool _isTimerActive = false;
   int _secondsElapsed = 0;
-  Game _game = Game(cardCount: 6);
+  Game _game = Game(
+    cardCount: 6,
+  );
   @override
   void initState() {
     super.initState();
