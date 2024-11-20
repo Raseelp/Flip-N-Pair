@@ -16,6 +16,7 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
   int tries = 0;
   bool isBlueTurn = true;
   int match = 0;
+  String Winner = '';
   // To track elapsed time
 
   Game _game = Game(cardCount: 20);
@@ -85,13 +86,18 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
                           if (_game.matchCheck[0].values.first ==
                               _game.matchCheck[1].values.first) {
                             if (isBlueTurn) {
-                              blueScore += 100;
+                              blueScore += 1;
                             } else {
-                              redScore += 100;
+                              redScore += 1;
                             }
                             match++;
                             if (match == 10) {
-                              showVictoryDiolog(tries, 1);
+                              if (blueScore > redScore) {
+                                Winner = 'BLUE';
+                              } else {
+                                Winner = 'RED';
+                              }
+                              showVictoryDiolog(blueScore, redScore, Winner);
                             }
                             _game.matchCheck.clear();
                           } else {
@@ -148,7 +154,7 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
     );
   }
 
-  void showVictoryDiolog(int moves, int scores) {
+  void showVictoryDiolog(int bluescores, int redScores, String Winner) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -161,90 +167,89 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
             backgroundColor: AppColors.pastelYellow,
             content: SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.width * 1.2,
+              height: MediaQuery.of(context).size.height * 0.4,
               child: Column(
                 children: [
-                  const Text(
-                    'WELL DONE!',
+                  Text(
+                    '$Winner WINS!',
                     style:
                         TextStyle(color: AppColors.primaryText, fontSize: 35),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: MediaQuery.of(context).size.width * 0.25,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColors.lightCyan,
-                        border: Border.all()),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Moves: $moves',
-                          style: const TextStyle(
-                              fontSize: 25, color: AppColors.primaryText),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blue,
                         ),
-                        Text(
-                          'Time: ',
-                          style: const TextStyle(
-                              fontSize: 25, color: AppColors.primaryText),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColors.secondaryAccent,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                                color: AppColors.lightCyan,
-                                borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(20),
+                        width: 100,
+                        height: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              color: AppColors.cardBack,
+                              child: Center(
+                                child: Text(
+                                  'Blue',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              width: double.infinity,
-                              child: const Center(
-                                  child: Text(
-                                'Totel:',
-                                style: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primaryText),
-                              )),
                             ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  color: AppColors.primaryAccent,
-                                  borderRadius: const BorderRadius.vertical(
-                                      bottom: Radius.circular(20))),
-                              width: double.infinity,
-                              child: Center(
-                                  child: Text(
-                                'score',
-                                style: const TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              )),
-                            ),
-                          )
-                        ],
+                            Text(
+                              '$bluescores',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 70,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.red,
+                        ),
+                        width: 100,
+                        height: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              color: AppColors.primaryAccent,
+                              child: Center(
+                                child: Text(
+                                  'Red',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '$redScores',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 70,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.7,
