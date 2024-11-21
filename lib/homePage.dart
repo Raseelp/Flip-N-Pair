@@ -1,6 +1,5 @@
 import 'package:flipnpair/GamePages/MultiPlayer/multiDifficulty.dart';
 import 'package:flipnpair/difficultySelect.dart';
-import 'package:flipnpair/themeSelection.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +37,7 @@ class Homepage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ThemeSelection(),
+                      builder: (context) => DifficultySelection(themeIndex: 1),
                     ),
                   );
                 },
