@@ -36,9 +36,7 @@ class ThemeSelection extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DifficultySelection(
-                          themeIndex: 0,
-                        ),
+                        builder: (context) => DifficultySelection(),
                       ));
                 },
                 child: Padding(
@@ -66,9 +64,7 @@ class ThemeSelection extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DifficultySelection(
-                          themeIndex: 1,
-                        ),
+                        builder: (context) => DifficultySelection(),
                       ));
                 },
                 child: Padding(

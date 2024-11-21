@@ -5,8 +5,9 @@ import 'package:flipnpair/util/appColors.dart';
 import 'package:flutter/material.dart';
 
 class DifficultySelection extends StatelessWidget {
-  final int themeIndex;
-  const DifficultySelection({super.key, required this.themeIndex});
+  const DifficultySelection({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -37,7 +37,7 @@ class Homepage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DifficultySelection(themeIndex: 1),
+                      builder: (context) => DifficultySelection(),
                     ),
                   );
                 },
