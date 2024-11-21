@@ -17,6 +17,7 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
   int tries = 0;
   bool isBlueTurn = true;
   int match = 0;
+  bool _isCardFlipping = false;
   String Winner = '';
   // To track elapsed time
 
@@ -78,45 +79,53 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
                   itemCount: _game.gameImg!.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          tries++;
-                          _game.gameImg![index] = _game.cardsList[index];
-                          _game.matchCheck.add({index: _game.cardsList[index]});
-                        });
-                        if (_game.matchCheck.length == 2) {
-                          if (_game.matchCheck[0].values.first ==
-                              _game.matchCheck[1].values.first) {
-                            if (isBlueTurn) {
-                              blueScore += 1;
-                            } else {
-                              redScore += 1;
-                            }
-                            match++;
-                            if (match == 10) {
-                              if (blueScore > redScore) {
-                                Winner = 'BLUE';
-                              } else {
-                                Winner = 'RED';
-                              }
-                              showVictoryDiolog(blueScore, redScore, Winner);
-                            }
-                            _game.matchCheck.clear();
-                          } else {
-                            Future.delayed(const Duration(milliseconds: 500),
-                                () {
+                      onTap: _isCardFlipping
+                          ? null
+                          : () {
                               setState(() {
-                                _game.gameImg![_game.matchCheck[0].keys.first] =
-                                    _game.hiddenCardPath;
-                                _game.gameImg![_game.matchCheck[1].keys.first] =
-                                    _game.hiddenCardPath;
-                                _game.matchCheck.clear();
-                                isBlueTurn = !isBlueTurn;
+                                tries++;
+                                _game.gameImg![index] = _game.cardsList[index];
+                                _game.matchCheck
+                                    .add({index: _game.cardsList[index]});
                               });
-                            });
-                          }
-                        }
-                      },
+                              if (_game.matchCheck.length == 2) {
+                                if (_game.matchCheck[0].values.first ==
+                                    _game.matchCheck[1].values.first) {
+                                  if (isBlueTurn) {
+                                    blueScore += 1;
+                                  } else {
+                                    redScore += 1;
+                                  }
+                                  match++;
+                                  if (match == 10) {
+                                    if (blueScore > redScore) {
+                                      Winner = 'BLUE';
+                                    } else {
+                                      Winner = 'RED';
+                                    }
+                                    showVictoryDiolog(
+                                        blueScore, redScore, Winner);
+                                  }
+                                  _game.matchCheck.clear();
+                                } else {
+                                  setState(() {
+                                    _isCardFlipping = true;
+                                  });
+                                  Future.delayed(
+                                      const Duration(milliseconds: 500), () {
+                                    setState(() {
+                                      _game.gameImg![_game.matchCheck[0].keys
+                                          .first] = _game.hiddenCardPath;
+                                      _game.gameImg![_game.matchCheck[1].keys
+                                          .first] = _game.hiddenCardPath;
+                                      _game.matchCheck.clear();
+                                      isBlueTurn = !isBlueTurn;
+                                      _isCardFlipping = false;
+                                    });
+                                  });
+                                }
+                              }
+                            },
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.grey[300],

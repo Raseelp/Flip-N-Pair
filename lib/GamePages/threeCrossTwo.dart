@@ -17,6 +17,7 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   int tries = 0;
   int scores = 0;
   int match = 0;
+  bool _isCardFlipping = false;
   // To track elapsed time
   Timer? _timer; // Timer instance
   bool _isTimerActive = false;
@@ -148,35 +149,50 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                   itemCount: _game.gameImg!.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          tries++;
-                          _game.gameImg![index] = _game.cardsList[index];
-                          _game.matchCheck.add({index: _game.cardsList[index]});
-                        });
-                        if (_game.matchCheck.length == 2) {
-                          if (_game.matchCheck[0].values.first ==
-                              _game.matchCheck[1].values.first) {
-                            scores += 100;
-                            match++;
-                            if (match == 3) {
-                              showVictoryDiolog(tries, scores);
-                            }
-                            _game.matchCheck.clear();
-                          } else {
-                            Future.delayed(const Duration(milliseconds: 500),
-                                () {
-                              setState(() {
-                                _game.gameImg![_game.matchCheck[0].keys.first] =
-                                    _game.hiddenCardPath;
-                                _game.gameImg![_game.matchCheck[1].keys.first] =
-                                    _game.hiddenCardPath;
-                                _game.matchCheck.clear();
-                              });
-                            });
-                          }
-                        }
-                      },
+                      onTap:
+                          _isCardFlipping // Disable tapping if cards are flipping
+                              ? null
+                              : () {
+                                  setState(() {
+                                    tries++;
+                                    _game.gameImg![index] =
+                                        _game.cardsList[index];
+                                    _game.matchCheck
+                                        .add({index: _game.cardsList[index]});
+                                  });
+                                  if (_game.matchCheck.length == 2) {
+                                    if (_game.matchCheck[0].values.first ==
+                                        _game.matchCheck[1].values.first) {
+                                      scores += 100;
+                                      match++;
+                                      if (match == 3) {
+                                        showVictoryDiolog(tries, scores);
+                                      }
+                                      _game.matchCheck.clear();
+                                    } else {
+                                      setState(() {
+                                        _isCardFlipping =
+                                            true; // Prevent further taps
+                                      });
+                                      Future.delayed(
+                                          const Duration(milliseconds: 500),
+                                          () {
+                                        setState(() {
+                                          _game.gameImg![_game
+                                              .matchCheck[0]
+                                              .keys
+                                              .first] = _game.hiddenCardPath;
+                                          _game.gameImg![_game
+                                              .matchCheck[1]
+                                              .keys
+                                              .first] = _game.hiddenCardPath;
+                                          _game.matchCheck.clear();
+                                          _isCardFlipping = false;
+                                        });
+                                      });
+                                    }
+                                  }
+                                },
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.grey[300],
