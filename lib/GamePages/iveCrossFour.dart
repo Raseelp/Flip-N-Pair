@@ -149,8 +149,18 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                       onTap: _isCardFlipping
                           ? null
                           : () {
+                              if (_game.gameImg![index] !=
+                                  _game.hiddenCardPath) {
+                                return;
+                              }
+
+                              // Prevent consecutive taps on the same card
+                              if (_game.matchCheck.isNotEmpty &&
+                                  _game.matchCheck.any(
+                                      (entry) => entry.keys.first == index)) {
+                                return;
+                              }
                               setState(() {
-                                print(_game.cardsList[index]);
                                 tries++;
                                 _game.gameImg![index] = _game.cardsList[index];
                                 _game.matchCheck
@@ -158,7 +168,9 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                               });
                               if (_game.matchCheck.length == 2) {
                                 if (_game.matchCheck[0].values.first ==
-                                    _game.matchCheck[1].values.first) {
+                                        _game.matchCheck[1].values.first &&
+                                    _game.matchCheck[0].keys.first !=
+                                        _game.matchCheck[1].keys.first) {
                                   print('True');
                                   scores += 100;
                                   matches++;

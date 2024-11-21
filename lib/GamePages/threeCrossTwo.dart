@@ -153,6 +153,17 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                           _isCardFlipping // Disable tapping if cards are flipping
                               ? null
                               : () {
+                                  if (_game.gameImg![index] !=
+                                      _game.hiddenCardPath) {
+                                    return;
+                                  }
+
+                                  // Prevent consecutive taps on the same card
+                                  if (_game.matchCheck.isNotEmpty &&
+                                      _game.matchCheck.any((entry) =>
+                                          entry.keys.first == index)) {
+                                    return;
+                                  }
                                   setState(() {
                                     tries++;
                                     _game.gameImg![index] =
@@ -162,7 +173,9 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                                   });
                                   if (_game.matchCheck.length == 2) {
                                     if (_game.matchCheck[0].values.first ==
-                                        _game.matchCheck[1].values.first) {
+                                            _game.matchCheck[1].values.first &&
+                                        _game.matchCheck[0].keys.first !=
+                                            _game.matchCheck[1].keys.first) {
                                       scores += 100;
                                       match++;
                                       if (match == 3) {
