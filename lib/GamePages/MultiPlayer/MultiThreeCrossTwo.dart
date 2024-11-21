@@ -4,7 +4,8 @@ import 'package:flipnpair/util/gameLogic.dart';
 import 'package:flutter/material.dart';
 
 class MultiThreeCrossTwo extends StatefulWidget {
-  const MultiThreeCrossTwo({super.key});
+  final int themeIndex;
+  const MultiThreeCrossTwo({super.key, required this.themeIndex});
 
   @override
   State<MultiThreeCrossTwo> createState() => _MultiThreeCrossTwoState();
@@ -19,9 +20,10 @@ class _MultiThreeCrossTwoState extends State<MultiThreeCrossTwo> {
   String Winner = '';
   // To track elapsed time
 
-  Game _game = Game(cardCount: 6);
+  late Game _game;
   @override
   void initState() {
+    _game = Game(widget.themeIndex, cardCount: 6);
     super.initState();
     _game.initGame();
     _game.generateImages(6);
@@ -266,7 +268,9 @@ class _MultiThreeCrossTwoState extends State<MultiThreeCrossTwo> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MultiThreeCrossTwo(),
+                                  builder: (context) => MultiThreeCrossTwo(
+                                    themeIndex: widget.themeIndex,
+                                  ),
                                 ));
                           },
                           child: Container(
@@ -352,7 +356,9 @@ class _MultiThreeCrossTwoState extends State<MultiThreeCrossTwo> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MultiThreeCrossTwo(),
+                                builder: (context) => MultiThreeCrossTwo(
+                                  themeIndex: widget.themeIndex,
+                                ),
                               ));
                         },
                         child: Container(

@@ -6,7 +6,8 @@ import 'package:flipnpair/util/gameLogic.dart';
 import 'package:flutter/material.dart';
 
 class FiveCrossFour extends StatefulWidget {
-  const FiveCrossFour({super.key});
+  final int themeIndex;
+  const FiveCrossFour({super.key, required this.themeIndex});
 
   @override
   State<FiveCrossFour> createState() => _FiveCrossFourState();
@@ -19,9 +20,10 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
   Timer? _timer; // Timer instance
   bool _isTimerActive = false;
   int _secondsElapsed = 0;
-  Game _game = Game(cardCount: 20);
+  late Game _game;
   @override
   void initState() {
+    _game = Game(widget.themeIndex, cardCount: 20);
     super.initState();
     _game.initGame();
     _game.generateImages(20);
@@ -307,7 +309,9 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => FiveCrossFour(),
+                                  builder: (context) => FiveCrossFour(
+                                    themeIndex: widget.themeIndex,
+                                  ),
                                 ));
                           },
                           child: Container(
@@ -394,7 +398,9 @@ class _FiveCrossFourState extends State<FiveCrossFour> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => FiveCrossFour(),
+                                builder: (context) => FiveCrossFour(
+                                  themeIndex: widget.themeIndex,
+                                ),
                               ));
                         },
                         child: Container(

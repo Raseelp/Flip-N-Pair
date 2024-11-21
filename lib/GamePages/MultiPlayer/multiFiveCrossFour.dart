@@ -4,7 +4,8 @@ import 'package:flipnpair/util/gameLogic.dart';
 import 'package:flutter/material.dart';
 
 class MultiFivecrossFour extends StatefulWidget {
-  const MultiFivecrossFour({super.key});
+  final int themeIndex;
+  const MultiFivecrossFour({super.key, required this.themeIndex});
 
   @override
   State<MultiFivecrossFour> createState() => _MultiFivecrossFour();
@@ -19,9 +20,10 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
   String Winner = '';
   // To track elapsed time
 
-  Game _game = Game(cardCount: 20);
+  late Game _game;
   @override
   void initState() {
+    _game = Game(widget.themeIndex, cardCount: 20);
     super.initState();
     _game.initGame();
     _game.generateImages(20);
@@ -266,8 +268,9 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        MultiFivecrossFour()));
+                                    builder: (context) => MultiFivecrossFour(
+                                          themeIndex: widget.themeIndex,
+                                        )));
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.15,
@@ -352,7 +355,9 @@ class _MultiFivecrossFour extends State<MultiFivecrossFour> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MultiFivecrossFour(),
+                                builder: (context) => MultiFivecrossFour(
+                                  themeIndex: widget.themeIndex,
+                                ),
                               ));
                         },
                         child: Container(

@@ -4,11 +4,18 @@ import 'package:flipnpair/GamePages/threeCrossTwo.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flutter/material.dart';
 
-class DifficultySelection extends StatelessWidget {
+class DifficultySelection extends StatefulWidget {
+  final int themeIndex;
   const DifficultySelection({
     super.key,
+    required this.themeIndex,
   });
 
+  @override
+  State<DifficultySelection> createState() => _DifficultySelectionState();
+}
+
+class _DifficultySelectionState extends State<DifficultySelection> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -40,7 +47,9 @@ class DifficultySelection extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ThreeCrossTwo(),
+                      builder: (context) => ThreeCrossTwo(
+                        themeIndex: widget.themeIndex,
+                      ),
                     ),
                   );
                 },
@@ -66,7 +75,9 @@ class DifficultySelection extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FourCrossThree(),
+                      builder: (context) => FourCrossThree(
+                        themeIndex: widget.themeIndex,
+                      ),
                     ),
                   );
                 },
@@ -92,7 +103,9 @@ class DifficultySelection extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FiveCrossFour(),
+                      builder: (context) => FiveCrossFour(
+                        themeIndex: widget.themeIndex,
+                      ),
                     ),
                   );
                 },

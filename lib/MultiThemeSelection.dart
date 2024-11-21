@@ -1,9 +1,10 @@
+import 'package:flipnpair/GamePages/MultiPlayer/multiDifficulty.dart';
 import 'package:flipnpair/difficultySelect.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flutter/material.dart';
 
-class ThemeSelection extends StatelessWidget {
-  const ThemeSelection({super.key});
+class Multithemeselection extends StatelessWidget {
+  const Multithemeselection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +37,8 @@ class ThemeSelection extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DifficultySelection(
-                          themeIndex: 0,
-                        ),
-                      ));
+                          builder: (context) =>
+                              MultiDifficulty(themeIndex: 0)));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -66,10 +65,7 @@ class ThemeSelection extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DifficultySelection(
-                        themeIndex: 1,
-                      ),
-                    ));
+                        builder: (context) => MultiDifficulty(themeIndex: 1)));
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(

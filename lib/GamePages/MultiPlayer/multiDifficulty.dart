@@ -4,9 +4,15 @@ import 'package:flipnpair/GamePages/MultiPlayer/multiFourCrossThree.dart';
 import 'package:flipnpair/util/appColors.dart';
 import 'package:flutter/material.dart';
 
-class MultiDifficulty extends StatelessWidget {
-  const MultiDifficulty({super.key});
+class MultiDifficulty extends StatefulWidget {
+  final int themeIndex;
+  const MultiDifficulty({super.key, required this.themeIndex});
 
+  @override
+  State<MultiDifficulty> createState() => _MultiDifficultyState();
+}
+
+class _MultiDifficultyState extends State<MultiDifficulty> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -38,7 +44,9 @@ class MultiDifficulty extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MultiThreeCrossTwo(),
+                      builder: (context) => MultiThreeCrossTwo(
+                        themeIndex: widget.themeIndex,
+                      ),
                     ),
                   );
                 },
@@ -64,7 +72,9 @@ class MultiDifficulty extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Multifourcrossthree(),
+                      builder: (context) => Multifourcrossthree(
+                        themeIndex: widget.themeIndex,
+                      ),
                     ),
                   );
                 },
@@ -90,7 +100,9 @@ class MultiDifficulty extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MultiFivecrossFour(),
+                      builder: (context) => MultiFivecrossFour(
+                        themeIndex: widget.themeIndex,
+                      ),
                     ),
                   );
                 },

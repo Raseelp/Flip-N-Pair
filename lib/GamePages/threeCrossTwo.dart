@@ -6,7 +6,8 @@ import 'package:flipnpair/util/gameLogic.dart';
 import 'package:flutter/material.dart';
 
 class ThreeCrossTwo extends StatefulWidget {
-  const ThreeCrossTwo({super.key});
+  final int themeIndex;
+  const ThreeCrossTwo({super.key, required this.themeIndex});
 
   @override
   State<ThreeCrossTwo> createState() => _ThreeCrossTwoState();
@@ -20,11 +21,10 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
   Timer? _timer; // Timer instance
   bool _isTimerActive = false;
   int _secondsElapsed = 0;
-  Game _game = Game(
-    cardCount: 6,
-  );
+  late Game _game;
   @override
   void initState() {
+    _game = Game(widget.themeIndex, cardCount: 6);
     super.initState();
     _game.initGame();
     _game.generateImages(6);
@@ -310,7 +310,9 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ThreeCrossTwo(),
+                                  builder: (context) => ThreeCrossTwo(
+                                    themeIndex: widget.themeIndex,
+                                  ),
                                 ));
                           },
                           child: Container(
@@ -397,7 +399,9 @@ class _ThreeCrossTwoState extends State<ThreeCrossTwo> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ThreeCrossTwo(),
+                                builder: (context) => ThreeCrossTwo(
+                                  themeIndex: widget.themeIndex,
+                                ),
                               ));
                         },
                         child: Container(

@@ -1,6 +1,7 @@
 class Game {
   final String hiddenCardPath = 'assets/images/hidden.png';
   final int cardCount;
+  final int themeIndex;
   List<String>? gameImg;
   final List<List<String>> themes = [
     [
@@ -16,13 +17,13 @@ class Game {
       'assets/images/10.png',
     ],
     [
-      'assets/images/c1.png',
+      'assets/images/c5.png',
+      'assets/images/c7.png',
       'assets/images/c2.png',
+      'assets/images/c6.png',
       'assets/images/c3.png',
       'assets/images/c4.png',
-      'assets/images/c5.png',
-      'assets/images/c6.png',
-      'assets/images/c7.png',
+      'assets/images/c1.png',
       'assets/images/c8.png',
       'assets/images/c9.png',
       'assets/images/c10.png',
@@ -33,14 +34,15 @@ class Game {
 
   void generateImages(int gridSize) {
     int uniqueImageCount = gridSize ~/ 2;
-    final List<String> selectedImages = themes[1].sublist(0, uniqueImageCount);
+    final List<String> selectedImages =
+        themes[themeIndex].sublist(0, uniqueImageCount);
     cardsList = [...selectedImages, ...selectedImages];
     cardsList.shuffle();
   }
 
   List<Map<int, String>> matchCheck = [];
 
-  Game({required this.cardCount});
+  Game(this.themeIndex, {required this.cardCount});
 
   void initGame() {
     gameImg = List.generate(
