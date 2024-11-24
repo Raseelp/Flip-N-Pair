@@ -12,8 +12,7 @@ class FlipNPair extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-          textTheme: GoogleFonts.slackeyTextTheme(Theme.of(context).textTheme)),
+     
       home: Homepage(),
     );
   }
