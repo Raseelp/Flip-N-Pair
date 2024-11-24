@@ -20,7 +20,7 @@ class ThemeSelection extends StatelessWidget {
             const Text(
               'Select a theme',
               style: TextStyle(
-                  color: AppColors.primaryText,
+                  color: Colors.black,
                   fontSize: 40,
                   fontWeight: FontWeight.bold),
             ),
