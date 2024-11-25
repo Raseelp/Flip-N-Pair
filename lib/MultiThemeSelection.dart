@@ -71,7 +71,7 @@ class Multithemeselection extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: screenWidth * 0.13,
                     vertical: screenHeight * 0.018),
-                child: const Text('KAZHAPP',
+                child: const Text('Siuuuuuuuuuuu',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
