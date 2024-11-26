@@ -75,7 +75,7 @@ class ThemeSelection extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: screenWidth * 0.13,
                     vertical: screenHeight * 0.018),
-                child: const Text('Siuuuuuuu',
+                child: const Text('Gollllllllllllaaasoooo',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
